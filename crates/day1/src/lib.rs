@@ -1,15 +1,12 @@
-use std::fs::File;
-use std::io::{BufRead, BufReader};
 use std::path::Path;
-use tracing::{error, event, Level};
+use tracing::{error, event, instrument, Level};
+use util::path_to_lines;
 
-#[tracing::instrument]
-pub fn day1_fun(file_name: &Path) -> anyhow::Result<i32> {
-    let file = File::open(file_name)?;
-    let file_reader = BufReader::new(file);
+#[instrument]
+pub fn day1_part1(file_name: &Path) -> anyhow::Result<i32> {
+    let lines = path_to_lines(file_name)?;
 
-    let val = file_reader
-        .lines()
+    let result = lines
         .map_while(Result::ok)
         .map(|line| {
             line.chars()
@@ -30,8 +27,15 @@ pub fn day1_fun(file_name: &Path) -> anyhow::Result<i32> {
         .filter_map(|string| string.parse::<i32>().ok())
         .sum();
 
-    event!(Level::INFO, "Returned value: \n{:?}", val);
-    Ok(val)
+    event!(Level::INFO, "Returned value: \n{:?}", result);
+    Ok(result)
+}
+
+#[instrument]
+pub fn day1_part2(file_name: &Path) -> anyhow::Result<i32> {
+    let lines = path_to_lines(file_name)?;
+
+    Ok(42)
 }
 
 #[cfg(test)]
@@ -48,14 +52,14 @@ mod tests {
             .finish();
         subscriber.init();
         let path = Path::new("src/test.txt").canonicalize()?;
-        day1_fun(path.as_path())?;
+        day1_part1(path.as_path())?;
         Ok(())
     }
 
     #[test]
     fn day1_main() -> anyhow::Result<()> {
         let path = Path::new("src/input.txt").canonicalize()?;
-        let result = day1_fun(path.as_path())?;
+        let result = day1_part1(path.as_path())?;
         println!("{}", result);
         Ok(())
     }
