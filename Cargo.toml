@@ -1,0 +1,15 @@
+[package]
+name = "aoc2023"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[workspace]
+resolver = "2"
+members = ["crates/*"]
+
+[workspace.dependencies]
+anyhow = "1.0.75"
+tracing = { version = "0.1.40", features = ["max_level_trace"] }
+tracing-subscriber = "0.3.18"
