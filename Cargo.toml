@@ -12,4 +12,5 @@ members = ["crates/*"]
 [workspace.dependencies]
 anyhow = "1.0.75"
 tracing = { version = "0.1.40", features = ["max_level_trace"] }
-tracing-subscriber = "0.3.18"
+tracing-subscriber = { version = "0.3.18", features = ["env-filter"] }
+rayon = "1.8.0"
