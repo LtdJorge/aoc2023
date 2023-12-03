@@ -14,3 +14,6 @@ anyhow = "1.0.75"
 tracing = { version = "0.1.40", features = ["max_level_trace"] }
 tracing-subscriber = { version = "0.3.18", features = ["env-filter"] }
 rayon = "1.8.0"
+nom = "7.1.3"
+serde = { version = "1.0.193", features = ["derive", "std"] }
+serde_json = { version = "1.0.108" }

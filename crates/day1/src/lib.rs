@@ -35,6 +35,7 @@ pub fn day1_part1(file_name: &Path) -> anyhow::Result<i32> {
     Ok(result)
 }
 
+/// Not used for now, the problem with the output probably lies in the concatenation of the same digit
 #[instrument]
 pub fn day1_part2(file_name: &Path) -> anyhow::Result<i32> {
     const SPELLED_NUMBERS: [&str; 9] = [
@@ -128,6 +129,8 @@ pub fn day1_part2(file_name: &Path) -> anyhow::Result<i32> {
     Ok(result)
 }
 
+/// Creates an array for spelled-out numbers and an array for digit numbers (as [str][std::str])
+/// Iterates over the lines in the input file in parallel,
 #[instrument]
 pub fn day1_part2_2(file_name: &Path) -> anyhow::Result<i32> {
     static SPELLED_NUMBERS: [&str; 9] = [
@@ -139,7 +142,7 @@ pub fn day1_part2_2(file_name: &Path) -> anyhow::Result<i32> {
     let mut file_content = String::new();
     file.read_to_string(&mut file_content)?;
     let par_file_content = file_content.as_parallel_string();
-    let lines = par_file_content.lines();
+    let lines = par_file_content.par_lines();
 
     let result = lines
         .map(|line| {
@@ -295,7 +298,7 @@ mod tests {
         let subscriber = tracing_subscriber::fmt()
             .with_ansi(true)
             .with_level(true)
-            .with_max_level(Level::INFO)
+            .with_max_level(Level::TRACE)
             .finish();
         subscriber.init();
         let path = Path::new("src/input.txt").canonicalize()?;
