@@ -6,6 +6,7 @@
       <sourceFolder url="file://$MODULE_DIR$/crates/day2/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/crates/util/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/htmlReport" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />

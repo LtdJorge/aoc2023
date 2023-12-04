@@ -1,3 +1,4 @@
+mod checker;
 mod parser;
 mod printer;
 
@@ -8,7 +9,7 @@ pub fn add(left: usize, right: usize) -> usize {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::parser::GameRun;
+    use crate::parser::PlayedSet;
     use rayon::prelude::*;
     use std::fs::File;
     use std::io::Read;
@@ -29,14 +30,59 @@ mod tests {
         let mut file_string = String::new();
         file.read_to_string(&mut file_string)?;
         let par_file = file_string.par_lines();
-        let game_vec: Vec<_> = par_file
+        let game_list: Vec<_> = par_file
+            .filter_map(|line| parser::game_run(line).ok())
+            .map(|(_, game)| game)
+            .collect();
+
+        let truth = PlayedSet {
+            red: 12,
+            green: 13,
+            blue: 14,
+        };
+
+        let sum: i32 = game_list
+            .iter()
+            .filter_map(|game| game.clone().verify_run(&truth))
+            .sum();
+
+        println!("Sum {sum}");
+        /*let game_vec: Vec<_> = par_file
             .filter_map(|line| parser::game_run(line).ok())
             .filter_map(|(_, game_run)| serde_json::to_string_pretty(&game_run).ok())
             .collect();
 
         for item in game_vec {
             println!("{item}")
-        }
+        }*/
+        Ok(())
+    }
+
+    #[test]
+    fn day2_part1_main() -> anyhow::Result<()> {
+        let path = Path::new("src/input.txt").canonicalize()?;
+        let mut file = File::open(path)?;
+        let mut file_string = String::new();
+        file.read_to_string(&mut file_string)?;
+        let par_file = file_string.par_lines();
+        let game_list: Vec<_> = par_file
+            .filter_map(|line| parser::game_run(line).ok())
+            .map(|(_, game)| game)
+            .collect();
+
+        let truth = PlayedSet {
+            red: 12,
+            green: 13,
+            blue: 14,
+        };
+
+        let sum: i32 = game_list
+            .iter()
+            .filter_map(|game| game.clone().verify_run(&truth))
+            .sum();
+
+        println!("Sum {sum}");
+
         Ok(())
     }
 }
