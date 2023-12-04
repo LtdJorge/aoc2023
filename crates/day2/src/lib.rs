@@ -85,4 +85,27 @@ mod tests {
 
         Ok(())
     }
+
+    #[test]
+    fn day2_part2_main() -> anyhow::Result<()> {
+        let path = Path::new("src/input.txt").canonicalize()?;
+        let mut file = File::open(path)?;
+        let mut file_string = String::new();
+        file.read_to_string(&mut file_string)?;
+        let par_file = file_string.par_lines();
+        let game_list: Vec<_> = par_file
+            .filter_map(|line| parser::game_run(line).ok())
+            .map(|(_, game)| game)
+            .collect();
+
+        let sum_of_powers: i32 = game_list
+            .iter()
+            .filter_map(|game| game.clone().get_run_minimum_needed().ok())
+            .map(|set| set.calculate_power())
+            .sum();
+
+        println!("Sum of powers: {sum_of_powers}");
+
+        Ok(())
+    }
 }
