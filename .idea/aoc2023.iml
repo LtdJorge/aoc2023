@@ -7,6 +7,7 @@
       <sourceFolder url="file://$MODULE_DIR$/crates/util/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/crates/day3/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/day4/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/htmlReport" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
